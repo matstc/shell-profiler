@@ -1,0 +1,40 @@
+
+<!-- custom html -->
+<style>
+*, div, td {font-family:Ubuntu;}
+code {font-family:Ubuntu Monospace, Monospace, Courier;}
+ul {list-style-type:square;}
+h1, h2, h3, h4, h5, h6 {margin-top:1.6em; margin-bottom:0.5em;}
+p {white-space: pre-wrap;}
+
+table {border-spacing:0; background-color:#eee; padding:4px;}
+table td {border-top:1px #888 solid; padding: 0.4em 0.5em;}
+h1, table th {font-variant:small-caps;}
+table th {font-size:120%;}
+img {border:6px #eee solid;}
+
+.title {font-size:120%; white-space:pre-wrap;}
+
+.toc ul {margin-bottom:1em;}
+.toc li {line-height:1.5em;}
+</style>
+<div>
+
+<p>This python script can be used to profile a shell script.</p>
+<p>Once the script is on the path, call it like so:</p>
+<pre><code>~&gt; profile test-file.sh PARAM1 PARAM2
+</code></pre>
+<p>The output will look something like the following:</p>
+<pre><code>0.291234732 &gt;   /bin/bash   line 7  echo 'loop: 1'
+0.289730072 &gt;   /bin/bash   line 6  for i in '`seq 100`'
+0.006031990 &gt;   /bin/bash   line 5  seq 10
+0.005759716 &gt;&gt;  /bin/bash   line 8  seq 100
+0.003070116 &gt;   /bin/bash   line 9  echo c
+0.003000021 &gt;   /bin/bash   line 4  echo b
+0.002927542 &gt;   /bin/bash   line 3  echo a
+0.002631426 &gt;   /bin/bash   line 2  echo test-file.sh
+0.000000000 &gt;   /bin/bash   line 10 echo --- END OF PROFILING ---
+</code></pre>
+
+</div>
+
