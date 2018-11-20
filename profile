@@ -6,9 +6,9 @@ import time
 
 def trace():
   popen = subprocess.Popen(["/bin/bash"], bufsize=1, stderr=subprocess.PIPE, stdin=subprocess.PIPE, shell=True)
-  code = open(sys.argv[1],'r').read()
+  code = open(arguments[1],'r').read()
 
-  popen.stdin.write("set %s;" % ' '.join(sys.argv[1:]))
+  popen.stdin.write("set %s;" % ' '.join(arguments[1:]))
   popen.stdin.write("export PS4='>:`date +%s.%N`:$0:line $LINENO:'; set -x;")
   popen.stdin.write(code)
   popen.stdin.write("echo --- END OF PROFILING ---")
@@ -21,6 +21,10 @@ def trace():
 def collect_timings(tokens, index):
   if index == len(tokenized_trace) -1:
     return [0] + tokens
+
+  if DEBUG:
+    print "tokenized trace is: %s" % tokenized_trace
+    print "tokens are %s" % tokens
 
   timing = float(tokenized_trace[index+1][1]) - float(tokens[1]) 
   return [timing] + tokens
@@ -54,9 +58,12 @@ def output(all_timings):
   [sys.stderr.write("\t".join([format_token(t) for t in (timings[:2] + timings[3:])])) for timings in all_timings]
 
 if __name__ == '__main__':
-  if len(sys.argv) < 2:
+  DEBUG = "--debug" in sys.argv
+  arguments = filter(lambda x: x != "--debug", sys.argv)
+
+  if len(arguments) < 2:
     print "Usage: call this script with the path to another script to profile."
-    print "e.g.: %s /some/path/script.sh param1 param2" % sys.argv[0]
+    print "e.g.: %s /some/path/script.sh param1 param2" % arguments[0]
     exit(1)
 
   tmp_tokens = [line.split(":") for line in trace()]
