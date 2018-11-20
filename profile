@@ -26,7 +26,7 @@ def collect_timings(tokens, index):
     print "tokenized trace is: %s" % tokenized_trace
     print "tokens are %s" % tokens
 
-  timing = float(tokenized_trace[index+1][1]) - float(tokens[1]) 
+  timing = float(tokenized_trace[index+1][1].replace(".N", "")) - float(tokens[1].replace(".N", "")) 
   return [timing] + tokens
 
 def consolidate_timings_by_line(timings):
